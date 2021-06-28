@@ -14,7 +14,8 @@ Refer to the official docker installation documentation:
 ### Prebuilt versions
 * `14.0.1-ce.0`
 * `14.0.1-ee.0`
-* `13.12.3-ee.0`
+* `13.12.5-ce.0`
+* `13.12.5-ee.0`
 
 You can pull prebuilt docker image from ghcr.io:
 ```sh
