@@ -28,6 +28,15 @@ docker pull ghcr.io/zengxs/gitlab-arm:<version>
 > Or just choose community edition. 
 
 
+### Steps to build image manually
+
+1. Edit [`./RELEASE`](./RELEASE) file, update the `RELEASE_PACKAGE`
+   (edition variant, `gitlab-ce` or `gitlab-ee`) and
+   `RELEASE_VERSION` (gitlab version, eg `14.0.1-ce.0`).
+
+2. Run `docker build . -t gitlab` to build image
+
+
 ### Differences compared to official dockerfile
 
 * Add package `libatomic1` (gitlab require it)
