@@ -1,5 +1,7 @@
 # Omnibus GitLab Docker for ARM64
 
+English | [中文](./README.zh-Hans.md)
+
 > Upstream: <https://gitlab.com/gitlab-org/omnibus-gitlab/-/tree/master/docker> 
 
 
