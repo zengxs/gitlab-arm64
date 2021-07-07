@@ -1,6 +1,6 @@
 # Omnibus GitLab Docker for ARM64
 
-English | [中文](./README.zh-Hans.md)
+English | [简体中文](./README.zh-Hans.md)
 
 > Upstream: <https://gitlab.com/gitlab-org/omnibus-gitlab/-/tree/master/docker> 
 
@@ -15,12 +15,16 @@ Refer to the official docker installation documentation:
 
 ### Prebuilt versions
 `14.0.*`:
+* `14.0.3-ce.0`
+* `14.0.3-ee.0`
 * `14.0.2-ce.0`
 * `14.0.2-ee.0`
 * `14.0.1-ce.0`
 * `14.0.1-ee.0`
 
 `13.12.*`:
+* `13.12.7-ce.0`
+* `13.12.7-ee.0`
 * `13.12.6-ce.0`
 * `13.12.6-ee.0`
 * `13.12.5-ce.0`
