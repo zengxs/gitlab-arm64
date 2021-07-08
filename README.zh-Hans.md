@@ -28,6 +28,8 @@ ARM64 版 GitLab Docker 镜像与 GitLab 官方提供的 x86_64 版镜像在用�
 
 #### 提供的预构建版本
 `14.0.*`:
+* `14.0.4-ce.0` (`latest`)
+* `14.0.4-ee.0`
 * `14.0.3-ce.0`
 * `14.0.3-ee.0`
 * `14.0.2-ce.0`
@@ -36,6 +38,8 @@ ARM64 版 GitLab Docker 镜像与 GitLab 官方提供的 x86_64 版镜像在用�
 * `14.0.1-ee.0`
 
 `13.12.*`:
+* `13.12.8-ce.0`
+* `13.12.8-ee.0`
 * `13.12.7-ce.0`
 * `13.12.7-ee.0`
 * `13.12.6-ce.0`
@@ -45,7 +49,7 @@ ARM64 版 GitLab Docker 镜像与 GitLab 官方提供的 x86_64 版镜像在用�
 
 你可以从 ghcr.io 上拉取这些镜像:
 ```sh
-docker pull ghcr.io/zengxs/gitlab-arm:14.0.2-ce.0
+docker pull ghcr.io/zengxs/gitlab-arm:latest
 ```
 
 > 后缀中带 **ce** 的表示社区版, **ee** 表示企业版。
@@ -60,12 +64,12 @@ docker pull ghcr.io/zengxs/gitlab-arm:14.0.2-ce.0
 
 1. 修改 [`./RELEASE`](./RELEASE) 文件, 编辑其中的两个变量:
    * `RELEASE_PACKAGE`: GitLab 版本类型，可以修改为 `gitlab-ce` (社区版) 或 `gitlab-ee` (企业版)
-   * `RELEASE_VERSION`: GitLab 版本好，例如 `14.0.1-ce.0`
+   * `RELEASE_VERSION`: GitLab 版本号，例如 `14.0.1-ce.0`
 
 2. 执行命令 `docker build . -t gitlab` 即可构建 docker 镜像
 
 
 ### 与 GitLab 官方提供的 x86_64 版 Docker 镜像的差别
 
-* 添加了包 `libatomic1` (GitLab 依赖此包)
+* 添加了 `libatomic1` 软件包 (GitLab 依赖此包)
 * 修改了 SSH 端口号，从 `22` 改为 `2222`

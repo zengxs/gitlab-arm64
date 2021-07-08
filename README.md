@@ -15,6 +15,8 @@ Refer to the official docker installation documentation:
 
 ### Prebuilt versions
 `14.0.*`:
+* `14.0.4-ce.0` (`latest`)
+* `14.0.4-ee.0`
 * `14.0.3-ce.0`
 * `14.0.3-ee.0`
 * `14.0.2-ce.0`
@@ -23,6 +25,8 @@ Refer to the official docker installation documentation:
 * `14.0.1-ee.0`
 
 `13.12.*`:
+* `13.12.8-ce.0`
+* `13.12.8-ee.0`
 * `13.12.7-ce.0`
 * `13.12.7-ee.0`
 * `13.12.6-ce.0`
@@ -32,7 +36,7 @@ Refer to the official docker installation documentation:
 
 You can pull prebuilt docker image from ghcr.io:
 ```sh
-docker pull ghcr.io/zengxs/gitlab-arm:<version>
+docker pull ghcr.io/zengxs/gitlab-arm:latest
 ```
 
 > **ce** is community edition, **ee** is enterprise edition.
