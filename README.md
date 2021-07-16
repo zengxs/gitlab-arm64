@@ -15,7 +15,9 @@ Refer to the official docker installation documentation:
 
 ### Prebuilt versions
 `14.0.*`:
-* `14.0.4-ce.0` (`latest`)
+* `14.0.5-ce.0` (`latest`)
+* `14.0.5-ee.0`
+* `14.0.4-ce.0`
 * `14.0.4-ee.0`
 * `14.0.3-ce.0`
 * `14.0.3-ee.0`
