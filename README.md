@@ -2,41 +2,50 @@
 
 English | [简体中文](./README.zh-Hans.md)
 
-> Upstream: <https://gitlab.com/gitlab-org/omnibus-gitlab/-/tree/master/docker> 
-
+> Upstream: <https://gitlab.com/gitlab-org/omnibus-gitlab/-/tree/master/docker>
 
 ### How to use
 
 The usage is the same as the official docker image.
 
 Refer to the official docker installation documentation:
-* <https://docs.gitlab.com/omnibus/docker/>
 
+- <https://docs.gitlab.com/omnibus/docker/>
 
 ### Prebuilt versions
-`14.0.*`:
-* `14.0.5-ce.0` (`latest`)
-* `14.0.5-ee.0`
-* `14.0.4-ce.0`
-* `14.0.4-ee.0`
-* `14.0.3-ce.0`
-* `14.0.3-ee.0`
-* `14.0.2-ce.0`
-* `14.0.2-ee.0`
-* `14.0.1-ce.0`
-* `14.0.1-ee.0`
 
-`13.12.*`:
-* `13.12.8-ce.0`
-* `13.12.8-ee.0`
-* `13.12.7-ce.0`
-* `13.12.7-ee.0`
-* `13.12.6-ce.0`
-* `13.12.6-ee.0`
-* `13.12.5-ce.0`
-* `13.12.5-ee.0`
+<details>
+<summary>14.0.x <kbd>latest</kbd></summary>
+
+- `14.0.5-ce.0` <kbd>latest</kbd>
+- `14.0.5-ee.0`
+- `14.0.4-ce.0`
+- `14.0.4-ee.0`
+- `14.0.3-ce.0`
+- `14.0.3-ee.0`
+- `14.0.2-ce.0`
+- `14.0.2-ee.0`
+- `14.0.1-ce.0`
+- `14.0.1-ee.0`
+
+</details>
+
+<details>
+<summary>13.12.x</summary>
+
+- `13.12.8-ce.0`
+- `13.12.8-ee.0`
+- `13.12.7-ce.0`
+- `13.12.7-ee.0`
+- `13.12.6-ce.0`
+- `13.12.6-ee.0`
+- `13.12.5-ce.0`
+- `13.12.5-ee.0`
+
+</details>
 
 You can pull prebuilt docker image from ghcr.io:
+
 ```sh
 docker pull ghcr.io/zengxs/gitlab-arm:latest
 ```
@@ -44,8 +53,7 @@ docker pull ghcr.io/zengxs/gitlab-arm:latest
 > **ce** is community edition, **ee** is enterprise edition.
 >
 > If you don't know which edition to choose, see <https://about.gitlab.com/install/ce-or-ee/>.
-> Or just choose community edition. 
-
+> Or just choose community edition.
 
 ### Steps to build image manually
 
@@ -55,8 +63,7 @@ docker pull ghcr.io/zengxs/gitlab-arm:latest
 
 2. Run `docker build . -t gitlab` to build image
 
-
 ### Differences compared to official dockerfile
 
-* Add package `libatomic1` (gitlab require it)
-* Change ssh port from `22` to `2222`
+- Add package `libatomic1` (gitlab require it)
+- Change ssh port from `22` to `2222`
