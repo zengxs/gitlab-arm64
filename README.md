@@ -21,6 +21,16 @@ Refer to the official docker installation documentation:
 ### Prebuilt versions
 
 <details>
+<summary>14.1.x <kbd>14.1</kbd> <kbd>latest</kbd></summary>
+
+- `14.1.1-ce.0` <kbd>14.1-ce</kbd> <kbd>ce</kbd> <kbd>latest</kbd>
+- `14.1.1-ee.0` <kbd>14.1-ee</kbd> <kbd>ee</kbd>
+- `14.1.0-ce.0`
+- `14.0.0-ee.0`
+
+</details>
+
+<details>
 <summary>14.0.x <kbd>14.0</kbd></summary>
 
 - `14.0.6-ce.0` <kbd>14.0-ce</kbd>
