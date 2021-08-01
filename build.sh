@@ -109,6 +109,7 @@ echo "==> Login to DockerHub"
 [ -z "$DRYRUN" ] && echo "$DOCKERHUB_TOKEN" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
 
 docker_push "$ce_tag" "$DOCKERHUB_IMAGE_NAME:$ce_version"
+docker_push "$ce_tag" "$DOCKERHUB_IMAGE_NAME:$BRANCH"
 docker_push "$ce_tag" "$DOCKERHUB_IMAGE_NAME:$BRANCH-ce"
 docker_push "$ee_tag" "$DOCKERHUB_IMAGE_NAME:$ee_version"
 docker_push "$ee_tag" "$DOCKERHUB_IMAGE_NAME:$BRANCH-ee"
@@ -128,6 +129,7 @@ echo "==> Login to ghcr.io"
 
 docker_push "$ce_tag" "$GHCR_IMAGE_NAME:$ce_version"
 docker_push "$ce_tag" "$GHCR_IMAGE_NAME:$BRANCH-ce"
+docker_push "$ce_tag" "$GHCR_IMAGE_NAME:$BRANCH"
 docker_push "$ee_tag" "$GHCR_IMAGE_NAME:$ee_version"
 docker_push "$ee_tag" "$GHCR_IMAGE_NAME:$BRANCH-ee"
 
