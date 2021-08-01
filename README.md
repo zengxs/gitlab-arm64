@@ -1,5 +1,11 @@
 # Omnibus GitLab Docker for ARM64
 
+![CircleCI](https://img.shields.io/circleci/build/gh/zengxs/gitlab-docker?logo=circleci)
+![Docker Pulls](https://img.shields.io/docker/pulls/zengxs/gitlab?logo=docker)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/zengxs/gitlab/ce?label=gitlab-ce&logo=docker)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/zengxs/gitlab/ee?label=gitlab-ee&logo=docker)
+![Docker Image Version (latest by date)](https://img.shields.io/docker/v/zengxs/gitlab?arch=arm64&logo=docker)
+
 English | [简体中文](./README.zh-Hans.md)
 
 > Upstream: <https://gitlab.com/gitlab-org/omnibus-gitlab/-/tree/master/docker>
@@ -15,9 +21,11 @@ Refer to the official docker installation documentation:
 ### Prebuilt versions
 
 <details>
-<summary>14.0.x <kbd>latest</kbd></summary>
+<summary>14.0.x <kbd>14.0</kbd></summary>
 
-- `14.0.5-ce.0` <kbd>latest</kbd>
+- `14.0.6-ce.0` <kbd>14.0-ce</kbd>
+- `14.0.6-ee.0` <kbd>14.0-ee</kbd>
+- `14.0.5-ce.0`
 - `14.0.5-ee.0`
 - `14.0.4-ce.0`
 - `14.0.4-ee.0`
@@ -44,10 +52,10 @@ Refer to the official docker installation documentation:
 
 </details>
 
-You can pull prebuilt docker image from ghcr.io:
+You can pull prebuilt docker image from DockerHub:
 
 ```sh
-docker pull ghcr.io/zengxs/gitlab-arm:latest
+docker pull zengxs/gitlab:latest
 ```
 
 > **ce** is community edition, **ee** is enterprise edition.
