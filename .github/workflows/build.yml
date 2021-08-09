@@ -12,8 +12,8 @@ jobs:
           distro: ubuntu18.04
 
           env: |
-            DOCKERHUB_TOKEN: ${{ DOCKERHUB_TOKEN }}
-            GHCR_TOKEN: ${{ GHCR_TOKEN }}
+            DOCKERHUB_TOKEN: ${DOCKERHUB_TOKEN}
+            GHCR_TOKEN: ${GHCR_TOKEN}
 
           install: |
             apt-get update -q -y
