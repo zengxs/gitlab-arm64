@@ -1,5 +1,9 @@
-FROM ubuntu:focal
+FROM ubuntu:20.04
 MAINTAINER GitLab Inc. <support@gitlab.com>
+
+ARG RELEASE_PACKAGE
+ARG RELEASE_VERSION
+ARG RELEASE_ARCH
 
 SHELL ["/bin/sh", "-c"]
 
@@ -14,6 +18,8 @@ RUN apt-get update -q \
       openssh-server \
       tzdata \
       wget \
+      perl \
+      libperl5.30 \
       libatomic1 \
     && rm -rf /var/lib/apt/lists/*
 
@@ -46,7 +52,7 @@ ENV PATH /opt/gitlab/embedded/bin:/opt/gitlab/bin:/assets:$PATH
 ENV TERM xterm
 
 # Expose web & ssh
-EXPOSE 443 80 2222
+EXPOSE 443 80 22
 
 # Define data volumes
 VOLUME ["/etc/gitlab", "/var/opt/gitlab", "/var/log/gitlab"]

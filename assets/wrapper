@@ -57,7 +57,7 @@ function unmigrated_data_check() {
         echo $output
         echo ""
         echo ""
-        echo "If you would like to restart the instance without perfming this check"
+        echo "If you would like to restart the instance without performing this check"
         echo "check, add the following to your docker command:"
         echo "-e GITLAB_SKIP_UNMIGRATED_DATA_CHECK=true"
         echo ""
@@ -112,7 +112,7 @@ if old_version=$(cat /var/opt/gitlab/gitlab-rails/VERSION)
 then
     GITLAB_UPGRADE='true'
     new_version=$(awk '/^gitlab-(ce|ee|jh)/ {print $NF}' /opt/gitlab/version-manifest.txt)
-    MIN_VERSION="14.0" gitlab-ctl upgrade-check "${old_version}" "${new_version}"
+    MIN_VERSION="15.0" gitlab-ctl upgrade-check "${old_version}" "${new_version}"
 fi
 
 # Copy gitlab.rb for the first time
@@ -172,7 +172,7 @@ fi
 
 # This must be false when the opt-in PostgreSQL version is the default for pg-upgrade,
 # otherwise it must be true.
-ATTEMPT_AUTO_PG_UPGRADE='true'
+ATTEMPT_AUTO_PG_UPGRADE='false'
 
 # Make sure PostgreSQL is at the latest version.
 # If it fails, print a message with a workaround and exit
@@ -185,8 +185,10 @@ if [ -n "${GITLAB_POST_RECONFIGURE_SCRIPT+x}" ]; then
   eval "${GITLAB_POST_RECONFIGURE_SCRIPT}"
 fi
 
-# Tail all logs
-gitlab-ctl tail &
+if [ "${GITLAB_SKIP_TAIL_LOGS}" != 'true' ]; then
+  # Tail all logs
+  gitlab-ctl tail &
+fi
 
 # Wait for SIGTERM
 wait

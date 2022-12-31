@@ -1,4 +1,4 @@
-Port 2222
+Port 22
 ChallengeResponseAuthentication no
 HostKey /etc/gitlab/ssh_host_rsa_key
 HostKey /etc/gitlab/ssh_host_ecdsa_key

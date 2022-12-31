@@ -3,21 +3,55 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - RELEASE_PACKAGE: gitlab-ce
+            RELEASE_VERSION: 15.7.0-ce.0
+            PUSH_TAGS: 15.7.0-ce.0,15.7-ce,15-ce,ce,latest
+          - RELEASE_PACKAGE: gitlab-ee
+            RELEASE_VERSION: 15.7.0-ee.0
+            PUSH_TAGS: 15.7.0-ee.0,15.7-ee,15-ee,ee
+
     steps:
       - uses: actions/checkout@v2
-      - uses: uraimo/run-on-arch-action@v2.0.5
+
+      - name: docker login to docker.io
+        uses: docker/login-action@v2
         with:
-          arch: aarch64
-          distro: ubuntu18.04
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-          env: |
-            DOCKERHUB_TOKEN: ${DOCKERHUB_TOKEN}
-            GHCR_TOKEN: ${GHCR_TOKEN}
+      - name: docker login to ghcr.io
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-          install: |
-            apt-get update -q -y
-            apt-get install -q -y python3 git docker.io docker-compose
-          run: |
-            ./build.sh
-            docker images
+      - name: Setup binfmt-support
+        uses: docker/setup-qemu-action@v2
+
+      - name: Setup docker buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Generate tags
+        id: generate-tags
+        run: |
+          dockerio_tags=$(echo ${{ matrix.PUSH_TAGS }} | tr ',' '\n' | xargs -I {} echo "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/gitlab:{}" | tr '\n' ',')
+          ghcr_tags=$(echo ${{ matrix.PUSH_TAGS }} | tr ',' '\n' | xargs -I {} echo "ghcr.io/${{ github.actor }}/gitlab-arm:{}" | tr '\n' ',')
+          echo "::set-output name=tags::$(echo ${dockerio_tags},${ghcr_tags})"
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.generate-tags.outputs.tags }}
+          platforms: linux/arm64
+          build-args: |
+            RELEASE_PACKAGE=${{ matrix.RELEASE_PACKAGE }}
+            RELEASE_VERSION=${{ matrix.RELEASE_VERSION }}
