@@ -30,7 +30,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Setup binfmt-support
         uses: docker/setup-qemu-action@v2
@@ -43,14 +43,14 @@ jobs:
         run: |
           dockerio_tags=$(echo ${{ matrix.PUSH_TAGS }} | tr ',' '\n' | xargs -I {} echo "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/gitlab:{}" | tr '\n' ',')
           ghcr_tags=$(echo ${{ matrix.PUSH_TAGS }} | tr ',' '\n' | xargs -I {} echo "ghcr.io/${{ github.actor }}/gitlab-arm:{}" | tr '\n' ',')
-          echo "::set-output name=tags::$(echo ${dockerio_tags},${ghcr_tags})"
+          echo "push_tags=${dockerio_tags},${ghcr_tags}" >> $GITHUB_ENV
 
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
           context: .
           push: true
-          tags: ${{ steps.generate-tags.outputs.tags }}
+          tags: ${{ env.push_tags }}
           platforms: linux/arm64
           build-args: |
             RELEASE_PACKAGE=${{ matrix.RELEASE_PACKAGE }}
