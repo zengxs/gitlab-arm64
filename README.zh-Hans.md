@@ -1,86 +1,102 @@
-# Omnibus GitLab Docker 镜像 (ARM64)
+# GitLab Docker 镜像 (ARM64)
+
+[![build-badge][github-actions-badge]][github-actions]
+[![Docker Pulls][dockerhub-badge-pulls]][dockerhub]
+[![Docker Image Size (tag)][dockerhub-badge-image-size-ce]][dockerhub]
+[![Docker Image Size (tag)][dockerhub-badge-image-size-ee]][dockerhub]
+[![Docker Image Version (latest by date)][dockerhub-badge-latest-version]][dockerhub]
+
+[github-actions]: https://github.com/zengxs/gitlab-docker/actions/workflows/build.yml
+[github-actions-badge]: https://github.com/zengxs/gitlab-docker/actions/workflows/build.yml/badge.svg?branch=main
+[dockerhub]: https://hub.docker.com/r/zengxs/gitlab/tags
+[dockerhub-badge-pulls]: https://img.shields.io/docker/pulls/zengxs/gitlab?logo=docker
+[dockerhub-badge-image-size-ce]: https://img.shields.io/docker/image-size/zengxs/gitlab/ce?label=gitlab-ce&logo=docker
+[dockerhub-badge-image-size-ee]: https://img.shields.io/docker/image-size/zengxs/gitlab/ee?label=gitlab-ee&logo=docker
+[dockerhub-badge-latest-version]: https://img.shields.io/docker/v/zengxs/gitlab?arch=arm64&logo=docker
+[ghcr]: https://github.com/zengxs/gitlab-docker/pkgs/container/gitlab-arm
 
 [English](./README.md) | 简体中文
 
+## 项目背景
+
+近年来，ARM 服务器的使用越来越广泛。由于其灵活、小巧、高效和低价，ARM 处理器成为了基础设施的理想选择。
+
+世界上几家顶级云服务商都投资了 ARM 服务器，并推出了自己的 ARM 服务器产品，包括 Amazon AWS、Azure、Google Cloud、Oracle Cloud、华为云等。
+
+GitLab 提供了官方 Docker 镜像，但是官方的 Docker 镜像仅支持 x86_64 架构。
+实际上，GitLab 官方早已支持 ARM64 架构，只是官方没有为 ARM64 架构打包对应的 Docker 镜像。
+
+这个项目使用 GitLab 官方的 Dockerfile，为 ARM64 架构打包了对应的 Docker 镜像。
+
 > 官方 Dockerfile: <https://gitlab.com/gitlab-org/omnibus-gitlab/-/tree/master/docker>
+>
+> 本项目基于官方 Dockerfile，只添加了少数几行代码，使其能够在 ARM64 上构建。
 
-此项目用于构建 ARM64 版的 Docker 镜像。Dockerfile 派生自官方的 Omnibus GitLab 项目，仅做了细微更改。
+## 如何使用
 
-这些镜像可用于一些云服务商提供的 ARM64 服务器，例如:
-
-- 华为云鲲鹏计算平台
-- Oracle Cloud Ampere A1 (ARM64) 计算平台
-- 或其他运行 ARM64 处理器的云服务器
-
-由于 GitLab 本身需要大量计算资源，在一些低配置的系统中 (如树莓派、路由器等嵌入式设备) 使用此镜像运行 GitLab 可能会出现响应缓慢、或系统报错的现象。
-
-### 如何使用
-
-ARM64 版 GitLab Docker 镜像与 GitLab 官方提供的 x86_64 版镜像在用法上完全相同。
+此项目旨在提供一个与官方 x86_64 Docker 镜像行为完全一致的 ARM64 版镜像，因此可以直接参考官方文档使用。
 
 参考 GitLab 官方的 Docker 安装文档:
 
 - <https://docs.gitlab.com/omnibus/docker/>
 
-### 预构建镜像
+## 获取镜像
 
-此项目提供了一些版本的 GitLab 预构建镜像，你可以直接拉取这些镜像来使用，而无需在本地构建 Docker 镜像。
+### 从 Docker Hub 获取
 
-#### 提供的预构建版本
+此项目已经在 DockerHub 上发布了预构建镜像，你可以直接拉取这些镜像来使用，而无需在本地构建 Docker 镜像。
+DockerHub 提供了自 13.12 起的所有小版本 (每个 minor version 至少提供了一个版本) 的 GitLab CE/EE 预构建镜像。
 
-<details>
-<summary>14.0.x <kbd>latest</kbd></summary>
+在 [DockerHub][dockerhub] 或 [GitHub Container Registry][ghcr] 查看所有可用的版本。
 
-- `14.0.5-ce.0` <kbd>latest</kbd>
-- `14.0.5-ee.0`
-- `14.0.4-ce.0`
-- `14.0.4-ee.0`
-- `14.0.3-ce.0`
-- `14.0.3-ee.0`
-- `14.0.2-ce.0`
-- `14.0.2-ee.0`
-- `14.0.1-ce.0`
-- `14.0.1-ee.0`
-
-</details>
-
-<details>
-<summary>13.12.x</summary>
-
-- `13.12.8-ce.0`
-- `13.12.8-ee.0`
-- `13.12.7-ce.0`
-- `13.12.7-ee.0`
-- `13.12.6-ce.0`
-- `13.12.6-ee.0`
-- `13.12.5-ce.0`
-- `13.12.5-ee.0`
-
-</details>
-
-你可以从 ghcr.io 上拉取这些镜像:
+从 DockerHub 拉取镜像:
 
 ```sh
-docker pull ghcr.io/zengxs/gitlab-arm:latest
+# 拉取最新的 GitLab CE 镜像
+docker pull zengxs/gitlab:ce
+# 拉取最新的 GitLab EE 镜像
+docker pull zengxs/gitlab:ee
+# 拉取指定版本的 GitLab CE/EE 镜像
+docker pull zengxs/gitlab:15.7.0-ce.0
 ```
 
-> 后缀中带 **ce** 的表示社区版, **ee** 表示企业版。
+> 提示:
+>
+> 后缀中带 **CE** 的表示社区版, **EE** 表示企业版。
 >
 > 社区版是开源免费的版本，企业版需要向 GitLab 购买许可证。
+>
 > 你可以在 <https://about.gitlab.com/install/ce-or-ee/> 上查看两个版本之间的差异。
+> 如果你不知道你需要哪个版本，那么你应该使用社区版。
 
-### 如何在本地手动构建镜像
+### 本地自行构建
 
-> 下面的操作需要在一台 ARM64 架构的 Linux 机器上执行。
+需要一台 ARM64 架构的 Linux 机器，并且已经安装了 Docker。
 
-1. 修改 [`./RELEASE`](./RELEASE) 文件, 编辑其中的两个变量:
+1. 克隆本项目:
 
-   - `RELEASE_PACKAGE`: GitLab 版本类型，可以修改为 `gitlab-ce` (社区版) 或 `gitlab-ee` (企业版)
-   - `RELEASE_VERSION`: GitLab 版本号，例如 `14.0.1-ce.0`
+   ```sh
+   git clone https://github.com/zengxs/gitlab-docker.git
+   ```
 
-2. 执行命令 `docker build . -t gitlab` 即可构建 docker 镜像
+2. 检查需要构建的 GitLab 版本号
 
-### 与 GitLab 官方提供的 x86_64 版 Docker 镜像的差别
+   版本号格式为 `major.minor.patch[-ce.0]`，例如 `15.7.0-ce.0`。
 
-- 添加了 `libatomic1` 软件包 (GitLab 依赖此包)
-- 修改了 SSH 端口号，从 `22` 改为 `2222`
+   你可以在 <https://packages.gitlab.com/gitlab/gitlab-ce> 或 <https://packages.gitlab.com/gitlab/gitlab-ee> 上查看所有可用的版本。
+
+3. 执行构建
+
+   ```sh
+   cd gitlab-docker
+   # 构建 GitLab CE 镜像
+   docker build . \
+      -t gitlab-ce:15.7.0-ce.0
+      --build-arg RELEASE_PACKAGE=gitlab-ce \
+      --build-arg RELEASE_VERSION=15.7.0-ce.0 \
+   # 构建 GitLab EE 镜像
+   docker build . \
+      -t gitlab-ee:15.7.0-ee.0 \
+      --build-arg RELEASE_PACKAGE=gitlab-ee \
+      --build-arg RELEASE_VERSION=15.7.0-ee.0
+   ```

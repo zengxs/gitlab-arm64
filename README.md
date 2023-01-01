@@ -1,87 +1,107 @@
-# Omnibus GitLab Docker for ARM64
+# GitLab Docker Image for ARM64
 
-![CircleCI](https://img.shields.io/circleci/build/gh/zengxs/gitlab-docker?logo=circleci)
-![Docker Pulls](https://img.shields.io/docker/pulls/zengxs/gitlab?logo=docker)
-![Docker Image Size (tag)](https://img.shields.io/docker/image-size/zengxs/gitlab/ce?label=gitlab-ce&logo=docker)
-![Docker Image Size (tag)](https://img.shields.io/docker/image-size/zengxs/gitlab/ee?label=gitlab-ee&logo=docker)
-![Docker Image Version (latest by date)](https://img.shields.io/docker/v/zengxs/gitlab?arch=arm64&logo=docker)
+[![build-badge][github-actions-badge]][github-actions]
+[![Docker Pulls][dockerhub-badge-pulls]][dockerhub]
+[![Docker Image Size (tag)][dockerhub-badge-image-size-ce]][dockerhub]
+[![Docker Image Size (tag)][dockerhub-badge-image-size-ee]][dockerhub]
+[![Docker Image Version (latest by date)][dockerhub-badge-latest-version]][dockerhub]
+
+[github-actions]: https://github.com/zengxs/gitlab-docker/actions/workflows/build.yml
+[github-actions-badge]: https://github.com/zengxs/gitlab-docker/actions/workflows/build.yml/badge.svg?branch=main
+[dockerhub]: https://hub.docker.com/r/zengxs/gitlab/tags
+[dockerhub-badge-pulls]: https://img.shields.io/docker/pulls/zengxs/gitlab?logo=docker
+[dockerhub-badge-image-size-ce]: https://img.shields.io/docker/image-size/zengxs/gitlab/ce?label=gitlab-ce&logo=docker
+[dockerhub-badge-image-size-ee]: https://img.shields.io/docker/image-size/zengxs/gitlab/ee?label=gitlab-ee&logo=docker
+[dockerhub-badge-latest-version]: https://img.shields.io/docker/v/zengxs/gitlab?arch=arm64&logo=docker
+[ghcr]: https://github.com/zengxs/gitlab-docker/pkgs/container/gitlab-arm
 
 English | [简体中文](./README.zh-Hans.md)
 
-> Upstream: <https://gitlab.com/gitlab-org/omnibus-gitlab/-/tree/master/docker>
+## What is this?
 
-### How to use
+In recent years, ARM servers have become more and more widely used. Due to their flexibility,
+small size, efficiency, and low price, ARM processors are a great choice for infrastructure.
 
-The usage is the same as the official docker image.
+Several top cloud vendors in the world have invested in ARM servers and launched ARM products,
+including Amazon AWS, Azure, Google Cloud, Oracle Cloud, Huawei Cloud, etc.
+
+However, the official GitLab docker image does not provide ARM64 version, which makes it
+difficult for ARM users to use GitLab. Actually, GitLab has provided ARM64 version for a long
+time, it's just that the official docker image is not built for ARM64.
+
+This project is to build GitLab docker image for ARM64 use GitLab's official dockerfile.
+
+> Upstream dockerfile: <https://gitlab.com/gitlab-org/omnibus-gitlab/-/tree/master/docker>
+>
+> This project is based on the official dockerfile, and only adds a few lines of code to make
+> it work on ARM64.
+
+## How to use it?
+
+This project aims to provide an ARM64 image that is eactly the same as the official image.
+So you can use it in the same way as the official image.
 
 Refer to the official docker installation documentation:
 
 - <https://docs.gitlab.com/omnibus/docker/>
 
-### Prebuilt versions
+## How to get image?
 
-<details>
-<summary>14.1.x <kbd>14.1</kbd> <kbd>latest</kbd></summary>
+### Pull prebuilt image from DockerHub/GitHub Container Registry
 
-- `14.1.1-ce.0` <kbd>14.1-ce</kbd> <kbd>ce</kbd> <kbd>latest</kbd>
-- `14.1.1-ee.0` <kbd>14.1-ee</kbd> <kbd>ee</kbd>
-- `14.1.0-ce.0`
-- `14.0.0-ee.0`
+This project provides at least one pre-built image for each minor release of GitLab CE/EE
+since 13.12.
 
-</details>
+Checkout all available tags on [DockerHub][dockerhub] or [GitHub Container Registry][ghcr].
 
-<details>
-<summary>14.0.x <kbd>14.0</kbd></summary>
-
-- `14.0.6-ce.0` <kbd>14.0-ce</kbd>
-- `14.0.6-ee.0` <kbd>14.0-ee</kbd>
-- `14.0.5-ce.0`
-- `14.0.5-ee.0`
-- `14.0.4-ce.0`
-- `14.0.4-ee.0`
-- `14.0.3-ce.0`
-- `14.0.3-ee.0`
-- `14.0.2-ce.0`
-- `14.0.2-ee.0`
-- `14.0.1-ce.0`
-- `14.0.1-ee.0`
-
-</details>
-
-<details>
-<summary>13.12.x</summary>
-
-- `13.12.8-ce.0`
-- `13.12.8-ee.0`
-- `13.12.7-ce.0`
-- `13.12.7-ee.0`
-- `13.12.6-ce.0`
-- `13.12.6-ee.0`
-- `13.12.5-ce.0`
-- `13.12.5-ee.0`
-
-</details>
-
-You can pull prebuilt docker image from DockerHub:
+Pull image from DockerHub:
 
 ```sh
-docker pull zengxs/gitlab:latest
+# Pull latest GitLab CE image
+docker pull zengxs/gitlab:ce
+# Pull latest GitLab EE image
+docker pull zengxs/gitlab:ee
+# Pull specific version of GitLab image
+docker pull zengxs/gitlab:15.7.0-ce.0
 ```
 
+> Note:
+>
 > **ce** is community edition, **ee** is enterprise edition.
+>
+> Community edition is free and open source, enterprise edition is commercial but more features.
 >
 > If you don't know which edition to choose, see <https://about.gitlab.com/install/ce-or-ee/>.
 > Or just choose community edition.
 
-### Steps to build image manually
+### Build image manually
 
-1. Edit [`./RELEASE`](./RELEASE) file, update the `RELEASE_PACKAGE`
-   (edition variant, `gitlab-ce` or `gitlab-ee`) and
-   `RELEASE_VERSION` (gitlab version, eg `14.0.1-ce.0`).
+Preqrequisites: ARM64 linux machine, docker installed.
 
-2. Run `docker build . -t gitlab` to build image
+1. Clone this project
 
-### Differences compared to official dockerfile
+   ```sh
+   git clone https://github.com/zengxs/gitlab-docker.git
+   ```
 
-- Add package `libatomic1` (gitlab require it)
-- Change ssh port from `22` to `2222`
+2. Check the version of GitLab you want to build
+
+   Version used in this example: `15.7.0-ce.0`
+
+   See <https://packages.gitlab.com/gitlab/gitlab-ce> or <https://packages.gitlab.com/gitlab/gitlab-ee> for available versions.
+
+3. Build image
+
+   ```sh
+   cd gitlab-docker
+   # Build GitLab CE image
+   docker build . \
+      -t gitlab-ce:15.7.0-ce.0
+      --build-arg RELEASE_PACKAGE=gitlab-ce \
+      --build-arg RELEASE_VERSION=15.7.0-ce.0 \
+   # Build GitLab EE image
+   docker build . \
+      -t gitlab-ee:15.7.0-ee.0 \
+      --build-arg RELEASE_PACKAGE=gitlab-ee \
+      --build-arg RELEASE_VERSION=15.7.0-ee.0
+   ```
