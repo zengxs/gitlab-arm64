@@ -38,8 +38,8 @@ This project is to build GitLab docker image for ARM64 use GitLab's official doc
 
 ## How to use it?
 
-This project aims to provide an ARM64 image that is eactly the same as the official image.
-So you can use it in the same way as the official image.
+This project aims to provide an ARM64 image that is eactly the same as the official x86_64
+image. So you can use it in the same way as the official image.
 
 Refer to the official docker installation documentation:
 
