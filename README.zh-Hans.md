@@ -12,7 +12,7 @@
 [dockerhub-badge-pulls]: https://img.shields.io/docker/pulls/zengxs/gitlab?logo=docker
 [dockerhub-badge-image-size-ce]: https://img.shields.io/docker/image-size/zengxs/gitlab/ce?label=gitlab-ce&logo=docker
 [dockerhub-badge-image-size-ee]: https://img.shields.io/docker/image-size/zengxs/gitlab/ee?label=gitlab-ee&logo=docker
-[dockerhub-badge-latest-version]: https://img.shields.io/docker/v/zengxs/gitlab?arch=arm64&logo=docker
+[dockerhub-badge-latest-version]: https://img.shields.io/docker/v/zengxs/gitlab/ce?arch=arm64&logo=docker
 [ghcr]: https://github.com/zengxs/gitlab-docker/pkgs/container/gitlab-arm
 
 [English](./README.md) | 简体中文
