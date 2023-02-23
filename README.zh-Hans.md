@@ -91,12 +91,12 @@ docker pull zengxs/gitlab:15.7.0-ce.0
    cd gitlab-docker
    # 构建 GitLab CE 镜像
    docker build . \
-      -t gitlab-ce:15.7.0-ce.0
+      -t gitlab-ce:15.9.0-ce.0 \
       --build-arg RELEASE_PACKAGE=gitlab-ce \
-      --build-arg RELEASE_VERSION=15.7.0-ce.0 \
+      --build-arg RELEASE_VERSION=15.9.0-ce.0
    # 构建 GitLab EE 镜像
    docker build . \
-      -t gitlab-ee:15.7.0-ee.0 \
+      -t gitlab-ee:15.9.0-ee.0 \
       --build-arg RELEASE_PACKAGE=gitlab-ee \
-      --build-arg RELEASE_VERSION=15.7.0-ee.0
+      --build-arg RELEASE_VERSION=15.9.0-ee.0
    ```

@@ -96,12 +96,12 @@ Preqrequisites: ARM64 linux machine, docker installed.
    cd gitlab-docker
    # Build GitLab CE image
    docker build . \
-      -t gitlab-ce:15.7.0-ce.0
+      -t gitlab-ce:15.9.0-ce.0 \
       --build-arg RELEASE_PACKAGE=gitlab-ce \
-      --build-arg RELEASE_VERSION=15.7.0-ce.0 \
+      --build-arg RELEASE_VERSION=15.9.0-ce.0
    # Build GitLab EE image
    docker build . \
-      -t gitlab-ee:15.7.0-ee.0 \
+      -t gitlab-ee:15.9.0-ee.0 \
       --build-arg RELEASE_PACKAGE=gitlab-ee \
-      --build-arg RELEASE_VERSION=15.7.0-ee.0
+      --build-arg RELEASE_VERSION=15.9.0-ee.0
    ```
