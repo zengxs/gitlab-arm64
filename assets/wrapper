@@ -57,7 +57,7 @@ function unmigrated_data_check() {
         echo $output
         echo ""
         echo ""
-        echo "If you would like to restart the instance without performing this check"
+        echo "If you would like to restart the instance without performing this"
         echo "check, add the following to your docker command:"
         echo "-e GITLAB_SKIP_UNMIGRATED_DATA_CHECK=true"
         echo ""
@@ -148,6 +148,11 @@ mkdir -p /var/run/sshd
 mkdir -p /var/log/gitlab/sshd
 mkdir -p /var/log/gitlab/reconfigure
 
+if [ -n "${GITLAB_PRE_RECONFIGURE_SCRIPT+x}" ]; then
+  echo "Running Pre Reconfigure Script..."
+  eval "${GITLAB_PRE_RECONFIGURE_SCRIPT}"
+fi
+
 # Start service manager
 echo "Starting services..."
 GITLAB_OMNIBUS_CONFIG= /opt/gitlab/embedded/bin/runsvdir-start &
@@ -172,7 +177,7 @@ fi
 
 # This must be false when the opt-in PostgreSQL version is the default for pg-upgrade,
 # otherwise it must be true.
-ATTEMPT_AUTO_PG_UPGRADE='false'
+ATTEMPT_AUTO_PG_UPGRADE='true'
 
 # Make sure PostgreSQL is at the latest version.
 # If it fails, print a message with a workaround and exit
