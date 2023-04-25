@@ -9,11 +9,11 @@ jobs:
       matrix:
         include:
           - RELEASE_PACKAGE: gitlab-ce
-            RELEASE_VERSION: 15.10.3-ce.0
-            PUSH_TAGS: 15.10.3-ce.0,15.10.3-ce,15.10-ce,15-ce,ce,latest
+            RELEASE_VERSION: 15.10.4-ce.0
+            PUSH_TAGS: 15.10.4-ce.0,15.10.4-ce,15.10-ce,15-ce,ce,latest
           - RELEASE_PACKAGE: gitlab-ee
-            RELEASE_VERSION: 15.10.3-ee.0
-            PUSH_TAGS: 15.10.3-ee.0,15.10.3-ee,15.10-ee,15-ee,ee
+            RELEASE_VERSION: 15.10.4-ee.0
+            PUSH_TAGS: 15.10.4-ee.0,15.10.4-ee,15.10-ee,15-ee,ee
 
     steps:
       - uses: actions/checkout@v2
