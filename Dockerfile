@@ -57,6 +57,9 @@ EXPOSE 443 80 22
 # Define data volumes
 VOLUME ["/etc/gitlab", "/var/opt/gitlab", "/var/log/gitlab"]
 
+# ensure /assets/wrapper is executable
+RUN chmod +x /assets/wrapper
+
 # Wrapper to handle signal, trigger runit and reconfigure GitLab
 CMD ["/assets/wrapper"]
 
