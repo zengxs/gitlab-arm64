@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 MAINTAINER GitLab Inc. <support@gitlab.com>
 
 ARG RELEASE_PACKAGE
@@ -19,7 +19,7 @@ RUN apt-get update -q \
       tzdata \
       wget \
       perl \
-      libperl5.30 \
+      libperl5.34 \
       libatomic1 \
     && rm -rf /var/lib/apt/lists/*
 
@@ -56,9 +56,6 @@ EXPOSE 443 80 22
 
 # Define data volumes
 VOLUME ["/etc/gitlab", "/var/opt/gitlab", "/var/log/gitlab"]
-
-# ensure /assets/wrapper is executable
-RUN chmod +x /assets/wrapper
 
 # Wrapper to handle signal, trigger runit and reconfigure GitLab
 CMD ["/assets/wrapper"]
