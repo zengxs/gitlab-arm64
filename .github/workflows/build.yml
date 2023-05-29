@@ -1,5 +1,5 @@
 name: build
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -9,17 +9,19 @@ jobs:
       matrix:
         include:
           - RELEASE_PACKAGE: gitlab-ce
-            RELEASE_VERSION: 15.11.6-ce.0
-            PUSH_TAGS: 15.11.6-ce.0,15.11.6-ce,15.11-ce,15-ce,ce,latest
+            RELEASE_VERSION: 16.0.1-ce.0
+            PUSH_TAGS: 16.0.1-ce.0,16.0.1-ce,16.0-ce,16-ce,ce,latest
           - RELEASE_PACKAGE: gitlab-ee
-            RELEASE_VERSION: 15.11.6-ee.0
-            PUSH_TAGS: 15.11.6-ee.0,15.11.6-ee,15.11-ee,15-ee,ee
+            RELEASE_VERSION: 16.0.1-ee.0
+            PUSH_TAGS: 16.0.1-ee.0,16.0.1-ee,16.0-ee,16-ee,ee
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: docker login to docker.io
         uses: docker/login-action@v2
+        # Only builds on the main branch will trigger the push, and forked repositories are excluded
+        if: github.repository_owner == 'zengxs/gitlab-arm64' && github.ref == 'refs/heads/main'
         with:
           registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -29,6 +31,8 @@ jobs:
       # See: https://github.com/docker/build-push-action/issues/463#issuecomment-924995909
       - name: docker login to ghcr.io
         uses: docker/login-action@v2
+        # Only builds on the main branch will trigger the push, and forked repositories are excluded
+        if: github.repository_owner == 'zengxs/gitlab-arm64' && github.ref == 'refs/heads/main'
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -51,7 +55,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          push: true
+          # Only builds on the main branch will trigger the push, and forked repositories are excluded
+          push: ${{ github.repository_owner == 'zengxs/gitlab-arm64' && github.ref == 'refs/heads/main' }}
           tags: ${{ env.push_tags }}
           platforms: linux/arm64
           build-args: |

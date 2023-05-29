@@ -19,7 +19,7 @@ function failed_pg_upgrade() {
 
 function clean_stale_pids() {
     # cleanup known pid/socket files
-    for x in /opt/gitlab/sv /run $(ls -d /tmp/gitaly-ruby* 2>/dev/null) ; do
+    for x in /opt/gitlab/sv /run ; do
         # find
         #  - any (s)ocket or regular (f)ile
         #  - by the name of "*.pid" or "socket.?"
@@ -112,7 +112,7 @@ if old_version=$(cat /var/opt/gitlab/gitlab-rails/VERSION)
 then
     GITLAB_UPGRADE='true'
     new_version=$(awk '/^gitlab-(ce|ee|jh)/ {print $NF}' /opt/gitlab/version-manifest.txt)
-    MIN_VERSION="15.0" gitlab-ctl upgrade-check "${old_version}" "${new_version}"
+    MIN_VERSION="15.11" gitlab-ctl upgrade-check "${old_version}" "${new_version}"
 fi
 
 # Copy gitlab.rb for the first time
@@ -128,16 +128,28 @@ if [[ ! -f /etc/gitlab/ssh_host_rsa_key ]]; then
 	ssh-keygen -f /etc/gitlab/ssh_host_rsa_key -N '' -t rsa
 	chmod 0600 /etc/gitlab/ssh_host_rsa_key
 fi
+# sshd loads the keys from /etc/gitlab, but the GitLab backend looks for keys
+# from within /etc/ssh
+ln -fs /etc/gitlab/ssh_host_rsa_key.pub /etc/ssh/ssh_host_rsa_key.pub
+
 if [[ ! -f /etc/gitlab/ssh_host_ecdsa_key ]]; then
 	echo "Generating ssh_host_ecdsa_key..."
 	ssh-keygen -f /etc/gitlab/ssh_host_ecdsa_key -N '' -t ecdsa
 	chmod 0600 /etc/gitlab/ssh_host_ecdsa_key
 fi
+# sshd loads the keys from /etc/gitlab, but the GitLab backend looks for keys
+# from within /etc/ssh
+ln -fs /etc/gitlab/ssh_host_ecdsa_key.pub /etc/ssh/ssh_host_ecdsa_key.pub
+
 if [[ ! -f /etc/gitlab/ssh_host_ed25519_key ]]; then
 	echo "Generating ssh_host_ed25519_key..."
 	ssh-keygen -f /etc/gitlab/ssh_host_ed25519_key -N '' -t ed25519
 	chmod 0600 /etc/gitlab/ssh_host_ed25519_key
 fi
+# sshd loads the keys from /etc/gitlab, but the GitLab backend looks for keys
+# from within /etc/ssh
+ln -fs /etc/gitlab/ssh_host_ed25519_key.pub /etc/ssh/ssh_host_ed25519_key.pub
+
 
 # Remove all services, the reconfigure will create them
 echo "Preparing services..."
