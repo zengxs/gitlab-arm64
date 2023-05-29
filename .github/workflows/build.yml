@@ -16,7 +16,7 @@ jobs:
             PUSH_TAGS: 16.0.1-ee.0,16.0.1-ee,16.0-ee,16-ee,ee
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: docker login to docker.io
         uses: docker/login-action@v2
