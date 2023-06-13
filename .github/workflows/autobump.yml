@@ -37,6 +37,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         if: steps.check-update.outputs.new_version != ''
         with:
+          token: ${{ secrets.CPR_TOKEN }}
           commit-message: "Bump version to ${{ steps.check-update.outputs.new_version }}"
           title: "Bump version to ${{ steps.check-update.outputs.new_version }}"
           body: "Bump version to ${{ steps.check-update.outputs.new_version }}"
