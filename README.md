@@ -64,13 +64,18 @@ for most people.
 
 **About Multi-architecture Images**
 
-To enable some users to use both x86_64 and ARM64 version images simultaneously, starting from
-version 16.0.4, all images provide multi-architecture versions. The ARM64 images are built using
-Github actions, while the x86-64 version directly uses the corresponding version of the official
-image. If you only need an image containing the ARM64 architecture, simply add the `-arm64`
-suffix after the tag.
+Starting from version 16.0.4, all images provide multiple architecture versions to facilitate
+users who need to use both x86-64 and arm64 versions of the image (such as when scheduling
+GitLab in a cluster that includes both x86-64 and arm64 machines). The arm64 images are built
+using GitHub Actions, while the x86-64 version uses the corresponding official image. 
 
-Before version 16.0.4, all images only contain the ARM64 version and the tag does not include the `-arm64` suffix.
+This means that you only need to use one tag to pull the image, whether you are using an x86-64
+or an arm64 machine. X86-64 machines will automatically pull the corresponding official GitLab
+image, while arm64 machines will pull the image built by this project.
+
+If you only need an image that includes the arm64 architecture, simply add the `-arm64` suffix
+after the tag. Prior to version 16.0.4, all images only included the arm64 version and did not
+have the `-arm64` suffix in the tag.
 
 #### Pulling from DockerHub
 
