@@ -12,7 +12,7 @@
 [dockerhub-badge-pulls]: https://img.shields.io/docker/pulls/zengxs/gitlab?logo=docker
 [dockerhub-badge-image-size-ce]: https://img.shields.io/docker/image-size/zengxs/gitlab/ce?label=gitlab-ce&logo=docker
 [dockerhub-badge-image-size-ee]: https://img.shields.io/docker/image-size/zengxs/gitlab/ee?label=gitlab-ee&logo=docker
-[dockerhub-badge-latest-version]: https://img.shields.io/docker/v/zengxs/gitlab/ce?arch=arm64&logo=docker
+[dockerhub-badge-latest-version]: https://img.shields.io/docker/v/zengxs/gitlab/ce?logo=docker
 [ghcr]: https://github.com/zengxs/gitlab-docker/pkgs/container/gitlab-arm
 
 English | [简体中文](./README.zh-Hans.md)
@@ -47,32 +47,58 @@ Refer to the official docker installation documentation:
 
 ## How to get image?
 
-### Pull prebuilt image from DockerHub/GitHub Container Registry
+### Pull Pre-built Images
 
-This project provides at least one pre-built image for each minor release of GitLab CE/EE
-since 13.12.
+Starting from GitLab CE/EE 13.12, this project continuously builds pre-built images for ARM64.
+You can view all available versions on [DockerHub][dockerhub].
 
-Checkout all available tags on [DockerHub][dockerhub] or [GitHub Container Registry][ghcr].
+**About Editions**
 
-Pull image from DockerHub:
+CE represents the community edition, which is open source and free.
+EE represents the enterprise edition, which includes more features but requires a license
+purchased from [GitLab B.V.](https://about.gitlab.com/pricing/).
 
-```sh
-# Pull latest GitLab CE image
-docker pull zengxs/gitlab:ce
-# Pull latest GitLab EE image
+You can check <https://about.gitlab.com/install/ce-or-ee/> for the differences between the
+two editions. Or you can directly choose the community edition, which should be the choice
+for most people.
+
+**About Multi-architecture Images**
+
+To enable some users to use both x86_64 and ARM64 version images simultaneously, starting from
+version 16.0.4, all images provide multi-architecture versions. The ARM64 images are built using
+Github actions, while the x86-64 version directly uses the corresponding version of the official
+image. If you only need an image containing the ARM64 architecture, simply add the `-arm64`
+suffix after the tag.
+
+Before version 16.0.4, all images only contain the ARM64 version and the tag does not include the `-arm64` suffix.
+
+#### Pulling from DockerHub
+
+```bash
+# Pull the latest version (default to CE version)
+docker pull zengxs/gitlab:latest
+
+# Pull the latest EE version
 docker pull zengxs/gitlab:ee
-# Pull specific version of GitLab image
-docker pull zengxs/gitlab:15.7.0-ce.0
+
+# Pull a specified CE version
+docker pull zengxs/gitlab:16.0.4-ce.0
 ```
 
-> Note:
->
-> **ce** is community edition, **ee** is enterprise edition.
->
-> Community edition is free and open source, enterprise edition is commercial but more features.
->
-> If you don't know which edition to choose, see <https://about.gitlab.com/install/ce-or-ee/>.
-> Or just choose community edition.
+#### Pull from GHCR
+
+> Deprecated: GHCR is deprecated due to the low usage rate and slowing down of the build process.
+
+```bash
+# Pull the latest version (default to CE)
+docker pull ghcr.io/zengxs/gitlab-arm:latest
+
+# Pull the latest EE version
+docker pull ghcr.io/zengxs/gitlab-arm:ee
+
+# Pull a specific CE version
+docker pull ghcr.io/zengxs/gitlab-arm:16.0.4-ce.0
+```
 
 ### Build image manually
 

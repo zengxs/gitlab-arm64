@@ -12,7 +12,7 @@
 [dockerhub-badge-pulls]: https://img.shields.io/docker/pulls/zengxs/gitlab?logo=docker
 [dockerhub-badge-image-size-ce]: https://img.shields.io/docker/image-size/zengxs/gitlab/ce?label=gitlab-ce&logo=docker
 [dockerhub-badge-image-size-ee]: https://img.shields.io/docker/image-size/zengxs/gitlab/ee?label=gitlab-ee&logo=docker
-[dockerhub-badge-latest-version]: https://img.shields.io/docker/v/zengxs/gitlab/ce?arch=arm64&logo=docker
+[dockerhub-badge-latest-version]: https://img.shields.io/docker/v/zengxs/gitlab/ce?logo=docker
 [ghcr]: https://github.com/zengxs/gitlab-docker/pkgs/container/gitlab-arm
 
 [English](./README.md) | 简体中文
@@ -42,32 +42,50 @@ GitLab 提供了官方 Docker 镜像，但是官方的 Docker 镜像仅支持 x8
 
 ## 获取镜像
 
-### 从 Docker Hub 获取
+### 拉取预构建镜像
 
-此项目已经在 DockerHub 上发布了预构建镜像，你可以直接拉取这些镜像来使用，而无需在本地构建 Docker 镜像。
-DockerHub 提供了自 13.12 起的所有小版本 (每个 minor version 至少提供了一个版本) 的 GitLab CE/EE 预构建镜像。
+这个项目自 GitLab CE/EE 13.12 起，持续为 ARM64 构建预构建镜像，你可以从 [DockerHub][dockerhub] 中查看所有可用的版本。
 
-在 [DockerHub][dockerhub] 或 [GitHub Container Registry][ghcr] 查看所有可用的版本。
+**关于版本 CE/EE**
 
-从 DockerHub 拉取镜像:
+CE 版本代表社区版，这个版本是开源免费的。EE 版本代表企业版，这个版本包含更多功能但是需要向 [GitLab 公司](https://about.gitlab.com/pricing/)付费购买许可证。
 
-```sh
-# 拉取最新的 GitLab CE 镜像
-docker pull zengxs/gitlab:ce
-# 拉取最新的 GitLab EE 镜像
+你可以查看 <https://about.gitlab.com/install/ce-or-ee/> 了解两个版本之间的差异。或者你可以直接选择社区版，这应该是大多数人的选择。
+
+**关于多架构镜像**
+
+为了方便部分用户同时使用 x86-64 和 arm64 版本镜像，自 16.0.4 开始，所有镜像提供多架构版本。其中
+arm64 镜像使用 Github actions 构建，x86-64 版本则直接使用对应版本的官方镜像。如果需要仅包含 arm64
+架构的镜像，只需要在 tag 后面添加 `-arm64` 后缀 即可。16.0.4 版本之前所有镜像都只包含 arm64
+版本且 tag 中不包含 `-arm64` 后缀。
+
+#### 从 DockerHub 拉取镜像
+
+```bash
+# 拉取最新版本 (默认为 CE 版本)
+docker pull zengxs/gitlab:latest
+
+# 拉取最新 EE 版本
 docker pull zengxs/gitlab:ee
-# 拉取指定版本的 GitLab CE/EE 镜像
-docker pull zengxs/gitlab:15.7.0-ce.0
+
+# 拉取指定 CE 版本
+docker pull zengxs/gitlab:16.0.4-ce.0
 ```
 
-> 提示:
->
-> 后缀中带 **CE** 的表示社区版, **EE** 表示企业版。
->
-> 社区版是开源免费的版本，企业版需要向 GitLab 购买许可证。
->
-> 你可以在 <https://about.gitlab.com/install/ce-or-ee/> 上查看两个版本之间的差异。
-> 如果你不知道你需要哪个版本，那么你应该使用社区版。
+#### 从 GHCR 拉取
+
+> 由于使用人数较少，且会拖慢 GitHub Actions 构建速度，现已废弃，自 16.0.4 版本之后不再更新。
+
+```bash
+# 拉取最新版本 (默认为 CE 版本)
+docker pull ghcr.io/zengxs/gitlab-arm:latest
+
+# 拉取最新 EE 版本
+docker pull ghcr.io/zengxs/gitlab-arm:ee
+
+# 拉取指定 CE 版本
+docker pull ghcr.io/zengxs/gitlab-arm:16.0.4-ce.0
+```
 
 ### 本地自行构建
 
