@@ -3,6 +3,10 @@ on:
   push:
     paths-ignore:
       - README*.md
+    branches-ignore:
+      # The autobump** branches will be triggered in the pull request,
+      # so there is no need to trigger it when pushing.
+      - autobump**
   pull_request:
 
 jobs:
