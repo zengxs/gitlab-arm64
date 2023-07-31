@@ -15,7 +15,8 @@
 [dockerhub-badge-latest-version]: https://img.shields.io/docker/v/zengxs/gitlab/ce?logo=docker
 [ghcr]: https://github.com/zengxs/gitlab-docker/pkgs/container/gitlab-arm
 
-English | [简体中文](./README.zh-Hans.md)
+| README Languages: | 👉 English | [简体中文](./README.zh-Hans.md) |
+| ----------------- | ---------- | ------------------------------- |
 
 ## What is this?
 
@@ -67,7 +68,7 @@ for most people.
 Starting from version 16.0.4, all images provide multiple architecture versions to facilitate
 users who need to use both x86-64 and arm64 versions of the image (such as when scheduling
 GitLab in a cluster that includes both x86-64 and arm64 machines). The arm64 images are built
-using GitHub Actions, while the x86-64 version uses the corresponding official image. 
+using GitHub Actions, while the x86-64 version uses the corresponding official image.
 
 This means that you only need to use one tag to pull the image, whether you are using an x86-64
 or an arm64 machine. X86-64 machines will automatically pull the corresponding official GitLab

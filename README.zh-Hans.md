@@ -15,7 +15,8 @@
 [dockerhub-badge-latest-version]: https://img.shields.io/docker/v/zengxs/gitlab/ce?logo=docker
 [ghcr]: https://github.com/zengxs/gitlab-docker/pkgs/container/gitlab-arm
 
-[English](./README.md) | 简体中文
+| README Languages: | [English](./README.md) | 👉 简体中文 |
+| ----------------- | ---------------------- | ----------- |
 
 ## 项目背景
 
