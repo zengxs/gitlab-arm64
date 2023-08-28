@@ -55,13 +55,11 @@ You can view all available versions on [DockerHub][dockerhub].
 
 **About Editions**
 
-CE represents the community edition, which is open source and free.
-EE represents the enterprise edition, which includes more features but requires a license
-purchased from [GitLab B.V.](https://about.gitlab.com/pricing/).
+CE represents the community edition, which is open-source and only offers a free tier, without official support from GitLab.
 
-You can check <https://about.gitlab.com/install/ce-or-ee/> for the differences between the
-two editions. Or you can directly choose the community edition, which should be the choice
-for most people.
+EE represents the enterprise edition, which provides the full version of GitLab and offers a free tier as well, with the option to upgrade to a paid version for additional features and official support.
+
+GitLab officially recommends everyone to use the EE version. Please refer to <https://about.gitlab.com/install/ce-or-ee/> for more information.
 
 **About Multi-architecture Images**
 

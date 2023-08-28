@@ -49,9 +49,11 @@ GitLab 提供了官方 Docker 镜像，但是官方的 Docker 镜像仅支持 x8
 
 **关于版本 CE/EE**
 
-CE 版本代表社区版，这个版本是开源免费的。EE 版本代表企业版，这个版本包含更多功能但是需要向 [GitLab 公司](https://about.gitlab.com/pricing/)付费购买许可证。
+CE 版本表示社区版 (Community Edition)，这个版本是开源的，但是只包含免费功能，并且您无法获取 GitLab 官方的支持（除非迁移到企业版）。
 
-你可以查看 <https://about.gitlab.com/install/ce-or-ee/> 了解两个版本之间的差异。或者你可以直接选择社区版，这应该是大多数人的选择。
+EE 版本代表企业版 (Enterprise Edition)，这个版本包含完整的功能，它提供了一个免费级别的套餐可以使用，但同时你可以付费开启更多功能，并可以直接获取 GitLab 官方的支持。
+
+GitLab 官方推荐所有人使用 EE 版本。参阅 <https://about.gitlab.com/install/ce-or-ee/> 了解更多。
 
 **关于多架构镜像**
 
