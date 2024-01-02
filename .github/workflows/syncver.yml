@@ -1,16 +1,17 @@
 # Automatic check for updates, if new version is available, submit a pull request
 # to update the version number in .github/workflows/build.yml
 
-name: autobump
+name: syncver
 on:
   schedule:
     - cron: "35 4 * * *"
   push:
     paths:
-      - .github/workflows/autobump.yml
+      - .github/workflows/syncver.yml
+      - check-update.py
 
 jobs:
-  autobump:
+  syncver:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -38,9 +39,9 @@ jobs:
         if: steps.check-update.outputs.new_version != ''
         with:
           token: ${{ secrets.CPR_TOKEN }}
-          commit-message: "Bump version to ${{ steps.check-update.outputs.new_version }}"
-          title: "Bump version to ${{ steps.check-update.outputs.new_version }}"
-          body: "Bump version to ${{ steps.check-update.outputs.new_version }}"
-          branch: autobump
+          commit-message: "Sync version to ${{ steps.check-update.outputs.new_version }}"
+          title: "Sync version to ${{ steps.check-update.outputs.new_version }}"
+          body: "Sync version to ${{ steps.check-update.outputs.new_version }}"
+          branch: syncver
           branch-suffix: timestamp
           delete-branch: true

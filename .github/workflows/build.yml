@@ -3,10 +3,14 @@ on:
   push:
     paths-ignore:
       - README*.md
+      - LICENSE
+      - .editorconfig
+      - .gitignore
+      - .github/workflows/syncver.yml
     branches-ignore:
-      # The autobump** branches will be triggered in the pull request,
+      # The syncver** branches will be triggered in the pull request,
       # so there is no need to trigger it when pushing.
-      - autobump**
+      - syncver**
   pull_request:
 
 jobs:
