@@ -4,7 +4,8 @@
 [![Docker Pulls][dockerhub-badge-pulls]][dockerhub]
 [![Docker Image Size (tag)][dockerhub-badge-image-size-ce]][dockerhub]
 [![Docker Image Size (tag)][dockerhub-badge-image-size-ee]][dockerhub]
-[![Docker Image Version (latest by date)][dockerhub-badge-latest-version]][dockerhub]
+[![Docker Image Version (latest by date)][dockerhub-badge-latest-version-ce]][dockerhub]
+[![Docker Image Version (latest by date)][dockerhub-badge-latest-version-ee]][dockerhub]
 
 [github-actions]: https://github.com/zengxs/gitlab-docker/actions/workflows/build.yml
 [github-actions-badge]: https://github.com/zengxs/gitlab-docker/actions/workflows/build.yml/badge.svg?branch=main
@@ -12,126 +13,106 @@
 [dockerhub-badge-pulls]: https://img.shields.io/docker/pulls/zengxs/gitlab?logo=docker
 [dockerhub-badge-image-size-ce]: https://img.shields.io/docker/image-size/zengxs/gitlab/ce?label=gitlab-ce&logo=docker
 [dockerhub-badge-image-size-ee]: https://img.shields.io/docker/image-size/zengxs/gitlab/ee?label=gitlab-ee&logo=docker
-[dockerhub-badge-latest-version]: https://img.shields.io/docker/v/zengxs/gitlab/ce?logo=docker
-[ghcr]: https://github.com/zengxs/gitlab-docker/pkgs/container/gitlab-arm
+[dockerhub-badge-latest-version-ce]: https://img.shields.io/docker/v/zengxs/gitlab/ce?logo=docker
+[dockerhub-badge-latest-version-ee]: https://img.shields.io/docker/v/zengxs/gitlab/ee?logo=docker
 
-| README Languages: | 👉 English | [简体中文](./README.zh-Hans.md) |
-| ----------------- | ---------- | ------------------------------- |
+## Overview
 
-## What is this?
+As the tech landscape evolves, ARM servers are gaining traction for their compact design, cost-effectiveness, and energy efficiency. Major cloud providers, including AWS, Azure, Google Cloud, Oracle Cloud, and Huawei Cloud, are expanding their offerings to include ARM-based solutions.
 
-In recent years, ARM servers have become more and more widely used. Due to their flexibility,
-small size, efficiency, and low price, ARM processors are a great choice for infrastructure.
+Despite this trend, the official GitLab Docker image lacks an ARM64 variant, posing a challenge for ARM users who wish to leverage GitLab. Although GitLab has long supported ARM64, this compatibility hasn't extended to its official Docker image.
 
-Several top cloud vendors in the world have invested in ARM servers and launched ARM products,
-including Amazon AWS, Azure, Google Cloud, Oracle Cloud, Huawei Cloud, etc.
+Our project addresses this gap by providing a GitLab Docker image tailored for ARM64, utilizing GitLab's own Dockerfile as a foundation.
 
-However, the official GitLab docker image does not provide ARM64 version, which makes it
-difficult for ARM users to use GitLab. Actually, GitLab has provided ARM64 version for a long
-time, it's just that the official docker image is not built for ARM64.
-
-This project is to build GitLab docker image for ARM64 use GitLab's official dockerfile.
-
-> Upstream dockerfile: <https://gitlab.com/gitlab-org/omnibus-gitlab/-/tree/master/docker>
+> Source Dockerfile: <https://gitlab.com/gitlab-org/omnibus-gitlab/-/tree/master/docker>
 >
-> This project is based on the official dockerfile, and only adds a few lines of code to make
-> it work on ARM64.
+> This initiative enhances the official Dockerfile with minimal modifications to ensure ARM64 compatibility.
 
-## How to use it?
+## Usage
 
-This project aims to provide an ARM64 image that is eactly the same as the official x86_64
-image. So you can use it in the same way as the official image.
+Our goal is to deliver an ARM64 image that mirrors the official x86_64 version in functionality. You can deploy this image just as you would the standard release.
 
-Refer to the official docker installation documentation:
+For installation guidance, refer to the official Docker documentation:
 
 - <https://docs.gitlab.com/omnibus/docker/>
 
-## How to get image?
+## Acquiring the Image
 
-### Pull Pre-built Images
+### Downloading Pre-built Images
 
-Starting from GitLab CE/EE 13.12, this project continuously builds pre-built images for ARM64.
-You can view all available versions on [DockerHub][dockerhub].
+From version 13.12 onwards, we've been consistently compiling pre-built ARM64 images. Explore the entire range of versions on [DockerHub][dockerhub].
 
-**About Editions**
+**Edition Information**
 
-CE represents the community edition, which is open-source and only offers a free tier, without official support from GitLab.
+The Community Edition (CE) is the open-source version that's freely available without GitLab's official backing.
 
-EE represents the enterprise edition, which provides the full version of GitLab and offers a free tier as well, with the option to upgrade to a paid version for additional features and official support.
+The Enterprise Edition (EE) encompasses the full-feature set of GitLab and, while also free, offers paid upgrades for enhanced capabilities and official support.
 
-GitLab officially recommends everyone to use the EE version. Please refer to <https://about.gitlab.com/install/ce-or-ee/> for more information.
+GitLab endorses the EE version for all users. For further details, please visit <https://about.gitlab.com/install/ce-or-ee/>.
 
-**About Multi-architecture Images**
+**Multi-Architecture Support**
 
-Starting from version 16.0.4, all images provide multiple architecture versions to facilitate
-users who need to use both x86-64 and arm64 versions of the image (such as when scheduling
-GitLab in a cluster that includes both x86-64 and arm64 machines). The arm64 images are built
-using GitHub Actions, while the x86-64 version uses the corresponding official image.
+As of version 16.0.4, our images support multiple architectures, accommodating environments with mixed x86-64 and ARM64 hardware. The ARM64 images are produced via GitHub Actions, while the x86-64 images are sourced directly from the official GitLab builds.
 
-This means that you only need to use one tag to pull the image, whether you are using an x86-64
-or an arm64 machine. X86-64 machines will automatically pull the corresponding official GitLab
-image, while arm64 machines will pull the image built by this project.
+This unified tagging system means you can pull the correct image for your architecture without having to specify it explicitly. For x86-64 systems, the official GitLab image will be retrieved, whereas ARM64 systems will receive the image compiled by this project.
 
-If you only need an image that includes the arm64 architecture, simply add the `-arm64` suffix
-after the tag. Prior to version 16.0.4, all images only included the arm64 version and did not
-have the `-arm64` suffix in the tag.
+For ARM64-only images, append the `-arm64` suffix to the tag name. Prior to version 16.0.4, images were exclusively ARM64 and did not require the suffix.
 
-#### Pulling from DockerHub
+**Update Strategy**
+
+The update process for our image is semi-automated. A GitHub Action is configured to scan for new releases from the upstream source every day. If there are any, it automatically creates a pull request with the updates. However, these pull requests require my manual oversight to ensure there are no critical changes in the upstream Dockerfile that could affect our build. While I strive to merge updates promptly, there may be occasions when a pull request isn't noticed right away. Typically, the delay won't exceed one week.
+
+When it comes to versioning, once a new minor release is available (indicated by an increment in the middle digit of the version number), I will shift focus to that new release. For example, if we're at version 16.6.2 and 16.7.0 is released, I will transition to the latest version. Subsequent patch updates for the 16.6.x series will not be maintained. I understand this may cause inconvenience, and I apologize for any issues this might cause. The limitation arises from a practical standpoint, as maintaining multiple versions concurrently is beyond my current capacity.
+
+#### Retrieving Images from DockerHub
 
 ```bash
-# Pull the latest version (default to CE version)
+# Fetch the latest version (defaults to CE)
 docker pull zengxs/gitlab:latest
 
-# Pull the latest EE version
+# Fetch the latest EE version
 docker pull zengxs/gitlab:ee
 
-# Pull a specified CE version
-docker pull zengxs/gitlab:16.0.4-ce.0
+# Fetch a specific CE release
+docker pull zengxs/gitlab:16.7.3-ce.0
 ```
 
-#### Pull from GHCR
+### Building the Image Yourself
 
-> Deprecated: GHCR is deprecated due to the low usage rate and slowing down of the build process.
+Requirements: ARM64 Linux system with Docker.
 
-```bash
-# Pull the latest version (default to CE)
-docker pull ghcr.io/zengxs/gitlab-arm:latest
-
-# Pull the latest EE version
-docker pull ghcr.io/zengxs/gitlab-arm:ee
-
-# Pull a specific CE version
-docker pull ghcr.io/zengxs/gitlab-arm:16.0.4-ce.0
-```
-
-### Build image manually
-
-Preqrequisites: ARM64 linux machine, docker installed.
-
-1. Clone this project
+1. Clone the repository:
 
    ```sh
-   git clone https://github.com/zengxs/gitlab-docker.git
+   git clone https://github.com/zengxs/gitlab-arm64
    ```
 
-2. Check the version of GitLab you want to build
+2. Select the GitLab version to build:
 
-   Version used in this example: `15.7.0-ce.0`
+   Example version: `16.7.3-ce.0`
 
-   See <https://packages.gitlab.com/gitlab/gitlab-ce> or <https://packages.gitlab.com/gitlab/gitlab-ee> for available versions.
+   Visit <https://packages.gitlab.com/gitlab/gitlab-ce> or <https://packages.gitlab.com/gitlab/gitlab-ee> for a list of available versions.
 
-3. Build image
+3. Compile the image:
 
    ```sh
-   cd gitlab-docker
-   # Build GitLab CE image
+   cd gitlab-arm64
+   # Compile the CE version of GitLab
    docker build . \
-      -t gitlab-ce:15.9.0-ce.0 \
+      -t gitlab-ce:16.7.3-ce.0 \
       --build-arg RELEASE_PACKAGE=gitlab-ce \
-      --build-arg RELEASE_VERSION=15.9.0-ce.0
-   # Build GitLab EE image
+      --build-arg RELEASE_VERSION=16.7.3-ce.0
+   # Compile the EE version of GitLab
    docker build . \
-      -t gitlab-ee:15.9.0-ee.0 \
+      -t gitlab-ee:16.7.3-ee.0 \
       --build-arg RELEASE_PACKAGE=gitlab-ee \
-      --build-arg RELEASE_VERSION=15.9.0-ee.0
+      --build-arg RELEASE_VERSION=16.7.3-ee.0
    ```
+
+## Contributing
+
+I welcome everyone in the community to contribute to this project! If you're working with ARM64 or x86-64 and run into any issues or have questions during deployment, please feel free to reach out. I am committed to assisting you and providing answers to the best of my ability.
+
+I also invite you to submit pull requests. If you come across a problem that is specific to the ARM64 architecture (and not present in the official x86-64 version), your contributions are highly appreciated. By sharing your fixes and enhancements, you can help improve the project for all ARM64 users.
+
+Let's work together to ensure the GitLab Docker image is as reliable and user-friendly as possible. Your input and contributions can make a significant difference!
