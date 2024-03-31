@@ -67,6 +67,8 @@ jobs:
           push: ${{ github.repository_owner == 'zengxs' && github.ref == 'refs/heads/main' }}
           tags: ${{ env.push_arm64_tags }}
           platforms: linux/arm64
+          # Disable provenance generation to resolve issue #82
+          provenance: false
           build-args: |
             RELEASE_PACKAGE=${{ matrix.RELEASE_PACKAGE }}
             RELEASE_VERSION=${{ matrix.RELEASE_VERSION }}
@@ -81,6 +83,7 @@ jobs:
           RELEASE_VERSION: ${{ matrix.RELEASE_VERSION }}
         run: |
           import os
+          import sys
 
           RELEASE_PACKAGE = os.environ['RELEASE_PACKAGE']
           RELEASE_VERSION = os.environ['RELEASE_VERSION']
@@ -90,7 +93,10 @@ jobs:
 
           def run_command(cmd):
             print(f'RUN: {cmd}')
-            os.system(cmd)
+            ret_code = os.system(cmd)
+            if ret_code != 0:
+              print(f"command failed: {cmd}")
+              sys.exit(ret_code)
 
           for tag in push_tags:
             print(f'Creating multi-arch manifest for {tag}')
