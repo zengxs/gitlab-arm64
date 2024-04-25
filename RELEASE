@@ -1,4 +1,4 @@
 RELEASE_PACKAGE=${RELEASE_PACKAGE}
 RELEASE_VERSION=${RELEASE_VERSION}
-RELEASE_ARCH=${RELEASE_ARCH:-arm64}
-DOWNLOAD_URL=https://packages.gitlab.com/gitlab/${RELEASE_PACKAGE}/packages/ubuntu/jammy/${RELEASE_PACKAGE}_${RELEASE_VERSION}_${RELEASE_ARCH}.deb/download.deb
+DOWNLOAD_URL_amd64=https://packages.gitlab.com/gitlab/${RELEASE_PACKAGE}/packages/ubuntu/jammy/${RELEASE_PACKAGE}_${RELEASE_VERSION}_amd64.deb/download.deb
+DOWNLOAD_URL_arm64=https://packages.gitlab.com/gitlab/${RELEASE_PACKAGE}/packages/ubuntu/jammy/${RELEASE_PACKAGE}_${RELEASE_VERSION}_arm64.deb/download.deb
