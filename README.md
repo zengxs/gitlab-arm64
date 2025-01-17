@@ -6,6 +6,7 @@
 [![Docker Image Size (tag)][dockerhub-badge-image-size-ee]][dockerhub]
 [![Docker Image Version (latest by date)][dockerhub-badge-latest-version-ce]][dockerhub]
 [![Docker Image Version (latest by date)][dockerhub-badge-latest-version-ee]][dockerhub]
+[<img src="https://api.gitsponsors.com/api/badge/img?id=376415419" height="20">](https://api.gitsponsors.com/api/badge/link?p=cv1IPlsxvBoDTFnD/VVKVafMVOOlIDdJ/DdliqpMCNvZrJs9W3rjF3mCx4rf8bx+Y3zNYhrfa5W1Zv8Kx0klzJf/3BA31AuGUr5tKFDEQ46w9SGF/zLi9PhQUnyIJA4ZACHeY0nUv16cfodvtuZVrg==)
 
 [github-actions]: https://github.com/zengxs/gitlab-docker/actions/workflows/build.yml
 [github-actions-badge]: https://github.com/zengxs/gitlab-docker/actions/workflows/build.yml/badge.svg?branch=main
