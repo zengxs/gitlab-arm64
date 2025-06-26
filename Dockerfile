@@ -55,7 +55,8 @@ RUN ln -fs /dev/null /run/motd.dynamic
 # Legacy code to be removed on 17.0.  See: https://gitlab.com/gitlab-org/omnibus-gitlab/-/merge_requests/7035
 ENV GITLAB_ALLOW_SHA1_RSA=false
 
-ARG TARGETARCH
+#ARG TARGETARCH
+ENV TARGETARCH=arm64
 
 # Copy assets
 COPY RELEASE /
