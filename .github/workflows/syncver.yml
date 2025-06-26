@@ -14,10 +14,10 @@ jobs:
   syncver:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           # only check for head commit
-          ref: main
+          ref: 18.0
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
