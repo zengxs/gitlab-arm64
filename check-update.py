@@ -27,7 +27,9 @@ BUILD_YML_PATH = BASE_DIR / ".github/workflows/build.yml"
 
 def main():
     current_version = get_current_version()
-    latest_version = get_latest_version()
+    # Default to '18.0' if GITHUB_REF_NAME not set
+    branch = os.getenv('GITHUB_REF_NAME', '18.0').split("/")[-1]
+    latest_version = get_latest_version(branch)
 
     if semver.compare(current_version, latest_version) < 0:
         print(
@@ -44,16 +46,21 @@ def get_current_version():
     build_yml = BUILD_YML_PATH.read_text()
 
     # extract RELEASE_VERSION from build.yml
-    current_version = build_yml.split("RELEASE_VERSION: ")[1].split("\n")[0]
-    current_version = current_version.strip()
+    current_version = None
+    for line in build_yml.splitlines():
+        if "RELEASE_VERSION:" in line and "-ce.0" in line:
+            current_version = line.split("RELEASE_VERSION:")[1].strip()
+            break
+    
+    if not current_version:
+        raise ValueError("Could not find CE version in build.yml")
 
-    # remove -ce.0/-ee.0 suffix
-    current_version = current_version.split("-")[0]
-
+    # remove -ce.0 suffix for version comparison
+    current_version = current_version.replace("-ce.0", "")
     return current_version
 
 
-def get_latest_version():
+def get_latest_version(branch):
     r = requests.get(
         "https://hub.docker.com/v2/namespaces/gitlab/repositories/gitlab-ce/tags?page_size=100",
         headers={
@@ -63,17 +70,38 @@ def get_latest_version():
         timeout=30,
     )
     results = r.json()["results"]
-    versions = [result["name"] for result in results]
+    # Extract versions and filter for CE tags
+    versions = []
+    for result in results:
+        name = result["name"]
+        if not name.endswith("-ce.0"):
+            continue
+        # Remove -ce.0 suffix for semver parsing
+        version = name.replace("-ce.0", "")
+        versions.append(version)
 
-    # filter out non-semver versions
-    versions = [version for version in versions if semver.VersionInfo.is_valid(version)]
+    print(f"Filtering versions for branch {branch}")
+    # filter out non-semver versions and match branch format (e.g. 17.5.*)
+    filtered_versions = []
+    branch_parts = branch.split('.')
+    for version in versions:
+        try:
+            v = semver.VersionInfo.parse(version)
+            print(f"Checking version {version} against branch {branch_parts[0]}.{branch_parts[1]}")
+            if str(v.major) == branch_parts[0] and str(v.minor) == branch_parts[1]:
+                filtered_versions.append(version)
+                print(f"Found matching version: {version}")
+        except (ValueError, IndexError):
+            continue
+
+    if not filtered_versions:
+        raise ValueError(f"No valid versions found for branch {branch}")
 
     # sort versions and get the latest one
-    versions = sorted(versions, key=semver.VersionInfo.parse, reverse=True)
-    latest_version = versions[0]
+    filtered_versions = sorted(filtered_versions, key=semver.VersionInfo.parse, reverse=True)
+    latest_version = filtered_versions[0]
+    print(f"Selected latest version: {latest_version}")
 
-    # remove -ce.0/-ee.0 suffix
-    latest_version = latest_version.split("-")[0]
     return latest_version
 
 
@@ -96,32 +124,8 @@ def update_build_yml(latest_version):
     ver = semver.VersionInfo.parse(latest_version)
     build_yml = BUILD_YML_PATH.read_text()
     build_yml = re.sub(
-        r"PUSH_TAGS: .*-ce\.0.*",
-        "PUSH_TAGS: "
-        + ",".join(
-            [
-                f"{latest_version}-ce.0",
-                f"{latest_version}-ce",
-                f"{ver.major}.{ver.minor}-ce",
-                f"{ver.major}-ce",
-                "ce",
-                "latest",
-            ]
-        ),
-        build_yml,
-    )
-    build_yml = re.sub(
-        r"PUSH_TAGS: .*-ee\.0.*",
-        "PUSH_TAGS: "
-        + ",".join(
-            [
-                f"{latest_version}-ee.0",
-                f"{latest_version}-ee",
-                f"{ver.major}.{ver.minor}-ee",
-                f"{ver.major}-ee",
-                "ee",
-            ]
-        ),
+        r"PUSH_TAGS: .*",
+        f"PUSH_TAGS: {latest_version}-ce.0,{latest_version}-ce,{ver.major}.{ver.minor}-ce",
         build_yml,
     )
     BUILD_YML_PATH.write_text(build_yml)
