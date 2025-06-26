@@ -28,19 +28,19 @@ jobs:
             PUSH_TAGS: 18.0.2-ee.0,18.0.2-ee,18.0-ee,18-ee,ee
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: docker login to docker.io
-        uses: docker/login-action@v2
+      - name: docker login to ghcr.io
+        uses: docker/login-action@v3
         # Only builds on the main branch will trigger the push, and forked repositories are excluded
-        if: github.repository_owner == 'zengxs' && github.ref == 'refs/heads/main'
+        if: github.repository_owner == 'OrographicLift' && github.ref == 'refs/heads/18.0'
         with:
           registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Setup docker buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       # Generate the push tags for multi-arch manifest
       - name: Generate tags
@@ -53,15 +53,15 @@ jobs:
       - name: Generate ARM64 tags
         id: generate-arm64-tags
         run: |
-          push_arm64_tags=$(echo ${{ env.push_tags }} | tr ',' '\n' | xargs -I {} echo "{}-arm64" | tr '\n' ',')
+          push_tags=$(echo ${{ matrix.PUSH_TAGS }} | tr ',' '\n' | xargs -I {} echo 'ghcr.io/orographiclift/gitlab:{}' | tr '\n' ',')
           echo "push_arm64_tags=${push_arm64_tags}" >> $GITHUB_ENV
 
       - name: Build and push ARM64 image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v6
         with:
           context: .
           # Only builds on the main branch will trigger the push, and forked repositories are excluded
-          push: ${{ github.repository_owner == 'zengxs' && github.ref == 'refs/heads/main' }}
+          push: ${{ github.repository_owner == 'OrographicLift' && github.ref == 'refs/heads/18.0' }}
           tags: ${{ env.push_arm64_tags }}
           platforms: linux/arm64
           # Disable provenance generation to resolve issue #82
@@ -74,7 +74,7 @@ jobs:
       # Create multi-arch manifest (x86-64 reuses official image, arm64 uses the image built in the previous step)
       - name: Docker multi-arch manifest
         # Only builds on the main branch will trigger the push, and forked repositories are excluded
-        if: github.repository_owner == 'zengxs' && github.ref == 'refs/heads/main'
+        if: github.repository_owner == 'OrographicLift' && github.ref == 'refs/heads/18.0'
         shell: python
         env:
           RELEASE_PACKAGE: ${{ matrix.RELEASE_PACKAGE }}
