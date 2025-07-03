@@ -1,20 +1,12 @@
 # GitLab Docker Image for ARM64
 
 [![build-badge][github-actions-badge]][github-actions]
-[![Docker Pulls][dockerhub-badge-pulls]][dockerhub]
-[![Docker Image Size (tag)][dockerhub-badge-image-size-ce]][dockerhub]
-[![Docker Image Size (tag)][dockerhub-badge-image-size-ee]][dockerhub]
-[![Docker Image Version (latest by date)][dockerhub-badge-latest-version-ce]][dockerhub]
-[![Docker Image Version (latest by date)][dockerhub-badge-latest-version-ee]][dockerhub]
+[![Docker Hub][dockerhub-badge]][dockerhub]
 
-[github-actions]: https://github.com/zengxs/gitlab-docker/actions/workflows/build.yml
-[github-actions-badge]: https://github.com/zengxs/gitlab-docker/actions/workflows/build.yml/badge.svg?branch=main
-[dockerhub]: https://hub.docker.com/r/zengxs/gitlab/tags
-[dockerhub-badge-pulls]: https://img.shields.io/docker/pulls/zengxs/gitlab?logo=docker
-[dockerhub-badge-image-size-ce]: https://img.shields.io/docker/image-size/zengxs/gitlab/ce?label=gitlab-ce&logo=docker
-[dockerhub-badge-image-size-ee]: https://img.shields.io/docker/image-size/zengxs/gitlab/ee?label=gitlab-ee&logo=docker
-[dockerhub-badge-latest-version-ce]: https://img.shields.io/docker/v/zengxs/gitlab/ce?logo=docker
-[dockerhub-badge-latest-version-ee]: https://img.shields.io/docker/v/zengxs/gitlab/ee?logo=docker
+[github-actions]: https://github.com/doingit4science/gitlab-arm64/actions/workflows/docker-build.yml
+[github-actions-badge]: https://github.com/doingit4science/gitlab-arm64/actions/workflows/docker-build.yml/badge.svg?branch=main
+[dockerhub]: https://hub.docker.com/r/doingit4science/gitlab-arm64
+[dockerhub-badge]: https://img.shields.io/docker/pulls/doingit4science/gitlab-arm64?logo=docker
 
 ## Overview
 
@@ -40,7 +32,7 @@ For installation guidance, refer to the official Docker documentation:
 
 ### Downloading Pre-built Images
 
-From version 13.12 onwards, we've been consistently compiling pre-built ARM64 images. Explore the entire range of versions on [DockerHub][dockerhub].
+From version 13.12 onwards, we've been consistently compiling pre-built ARM64 images. Explore the entire range of versions on [Docker Hub][dockerhub].
 
 **Edition Information**
 
@@ -50,31 +42,28 @@ The Enterprise Edition (EE) encompasses the full-feature set of GitLab and, whil
 
 GitLab endorses the EE version for all users. For further details, please visit <https://about.gitlab.com/install/ce-or-ee/>.
 
-**Multi-Architecture Support**
+**ARM64 Focus**
 
-As of version 16.0.4, our images support multiple architectures, accommodating environments with mixed x86-64 and ARM64 hardware. The ARM64 images are produced via GitHub Actions, while the x86-64 images are sourced directly from the official GitLab builds.
-
-This unified tagging system means you can pull the correct image for your architecture without having to specify it explicitly. For x86-64 systems, the official GitLab image will be retrieved, whereas ARM64 systems will receive the image compiled by this project.
-
-For ARM64-only images, append the `-arm64` suffix to the tag name. Prior to version 16.0.4, images were exclusively ARM64 and did not require the suffix.
+This project provides ARM64-only images for both GitLab CE and EE, automatically built and published to Docker Hub. Images are tagged with the GitLab version number and include edition-specific tags (ce/ee) plus a `latest` tag for the most recent CE release.
 
 **Update Strategy**
 
-The update process for our image is semi-automated. A GitHub Action is configured to scan for new releases from the upstream source every day. If there are any, it automatically creates a pull request with the updates. However, these pull requests require my manual oversight to ensure there are no critical changes in the upstream Dockerfile that could affect our build. While I strive to merge updates promptly, there may be occasions when a pull request isn't noticed right away. Typically, the delay won't exceed one week.
+The update process is fully automated. A GitHub Action checks daily for new GitLab releases and automatically builds and publishes new ARM64 images for both CE and EE editions when detected. This ensures that new GitLab versions are available as ARM64 images within hours of their official release, without any manual intervention required.
 
-When it comes to versioning, once a new minor release is available (indicated by an increment in the middle digit of the version number), I will shift focus to that new release. For example, if we're at version 16.6.2 and 16.7.0 is released, I will transition to the latest version. Subsequent patch updates for the 16.6.x series will not be maintained. I understand this may cause inconvenience, and I apologize for any issues this might cause. The limitation arises from a practical standpoint, as maintaining multiple versions concurrently is beyond my current capacity.
-
-#### Retrieving Images from DockerHub
+#### Retrieving Images from Docker Hub
 
 ```bash
-# Fetch the latest version (defaults to CE)
-docker pull zengxs/gitlab:latest
+# Fetch the latest CE version
+docker pull doingit4science/gitlab-arm64:latest
 
 # Fetch the latest EE version
-docker pull zengxs/gitlab:ee
+docker pull doingit4science/gitlab-arm64:ee
 
 # Fetch a specific CE release
-docker pull zengxs/gitlab:16.7.3-ce.0
+docker pull doingit4science/gitlab-arm64:18.0.2-ce
+
+# Fetch a specific EE release
+docker pull doingit4science/gitlab-arm64:18.0.2-ee
 ```
 
 ### Building the Image Yourself
@@ -84,7 +73,7 @@ Requirements: ARM64 Linux system with Docker.
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/zengxs/gitlab-arm64
+   git clone https://github.com/doingit4science/gitlab-arm64
    ```
 
 2. Select the GitLab version to build:
@@ -97,16 +86,16 @@ Requirements: ARM64 Linux system with Docker.
 
    ```sh
    cd gitlab-arm64
-   # Compile the CE version of GitLab
+   # Build GitLab CE for ARM64
    docker build . \
-      -t gitlab-ce:16.7.3-ce.0 \
+      -t gitlab-ce:18.0.2-ce.0 \
       --build-arg RELEASE_PACKAGE=gitlab-ce \
-      --build-arg RELEASE_VERSION=16.7.3-ce.0
-   # Compile the EE version of GitLab
+      --build-arg RELEASE_VERSION=18.0.2-ce.0
+   # Build GitLab EE for ARM64
    docker build . \
-      -t gitlab-ee:16.7.3-ee.0 \
+      -t gitlab-ee:18.0.2-ee.0 \
       --build-arg RELEASE_PACKAGE=gitlab-ee \
-      --build-arg RELEASE_VERSION=16.7.3-ee.0
+      --build-arg RELEASE_VERSION=18.0.2-ee.0
    ```
 
 ## Contributing
