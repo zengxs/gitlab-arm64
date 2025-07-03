@@ -1,0 +1,103 @@
+name: Build and Push Docker Image
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Check daily at 6 AM UTC
+  repository_dispatch:
+    types: [gitlab_release]
+  workflow_dispatch:  # Allow manual trigger
+    inputs:
+      gitlab_version:
+        description: 'GitLab version to build'
+        required: false
+        type: string
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/gitlab-arm64
+
+jobs:
+  check-gitlab-release:
+    runs-on: ubuntu-latest
+    outputs:
+      should_build: ${{ steps.check.outputs.should_build }}
+      gitlab_version: ${{ steps.check.outputs.gitlab_version }}
+    steps:
+    - name: Check for new GitLab release
+      id: check
+      run: |
+        # Get latest GitLab CE release from GitLab API
+        LATEST_RELEASE=$(curl -s "https://gitlab.com/api/v4/projects/13083/releases" | jq -r '.[0].tag_name' | sed 's/^v//')
+        echo "Latest GitLab version: $LATEST_RELEASE"
+        
+        # Check if we already have an image for this version
+        IMAGE_EXISTS=$(curl -s "https://hub.docker.com/v2/repositories/${{ secrets.DOCKERHUB_USERNAME }}/gitlab-arm64/tags/$LATEST_RELEASE-ce" \
+          -o /dev/null -w "%{http_code}")
+        
+        if [ "$IMAGE_EXISTS" = "200" ] && [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
+          echo "Image already exists for version $LATEST_RELEASE"
+          echo "should_build=false" >> $GITHUB_OUTPUT
+        else
+          echo "New version found or manual trigger: $LATEST_RELEASE"
+          echo "should_build=true" >> $GITHUB_OUTPUT
+          echo "gitlab_version=$LATEST_RELEASE" >> $GITHUB_OUTPUT
+        fi
+
+  build:
+    needs: check-gitlab-release
+    if: needs.check-gitlab-release.outputs.should_build == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix:
+        edition: [ce, ee]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Set GitLab version
+      id: version
+      run: |
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.gitlab_version }}" ]; then
+          VERSION="${{ inputs.gitlab_version }}"
+        else
+          VERSION="${{ needs.check-gitlab-release.outputs.gitlab_version }}"
+        fi
+        echo "gitlab_version=$VERSION" >> $GITHUB_OUTPUT
+
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        tags: |
+          type=raw,value=${{ steps.version.outputs.gitlab_version }}-${{ matrix.edition }}
+          type=raw,value=${{ matrix.edition }}
+          type=raw,value=latest,enable=${{ matrix.edition == 'ce' }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        platforms: linux/arm64
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        build-args: |
+          RELEASE_PACKAGE=gitlab-${{ matrix.edition }}
+          RELEASE_VERSION=${{ steps.version.outputs.gitlab_version }}-${{ matrix.edition }}.0
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
