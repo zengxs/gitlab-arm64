@@ -3,10 +3,15 @@
 [![build-badge][github-actions-badge]][github-actions]
 [![Docker Hub][dockerhub-badge]][dockerhub]
 
+- GitLab CE: [![Docker Image Size (tag)][dockerhub-badge-image-size-ce]][dockerhub]
+- GitLab EE: [![Docker Image Size (tag)][dockerhub-badge-image-size-ee]][dockerhub]
+
 [github-actions]: https://github.com/doingit4science/gitlab-arm64/actions/workflows/docker-build.yml
 [github-actions-badge]: https://github.com/doingit4science/gitlab-arm64/actions/workflows/docker-build.yml/badge.svg?branch=main
 [dockerhub]: https://hub.docker.com/r/doingit4science/gitlab-arm64
 [dockerhub-badge]: https://img.shields.io/docker/pulls/doingit4science/gitlab-arm64?logo=docker
+[dockerhub-badge-image-size-ce]: https://img.shields.io/docker/image-size/doingit4science/gitlab-arm64/ce?label=ce&logo=docker
+[dockerhub-badge-image-size-ee]: https://img.shields.io/docker/image-size/doingit4science/gitlab-arm64/ee?label=ee&logo=docker
 
 ## Overview
 
@@ -32,7 +37,7 @@ For installation guidance, refer to the official Docker documentation:
 
 ### Downloading Pre-built Images
 
-From version 13.12 onwards, we've been consistently compiling pre-built ARM64 images. Explore the entire range of versions on [Docker Hub][dockerhub].
+From version 18.1.2 onwards, we've been consistently compiling pre-built ARM64 images. Explore the entire range of versions on [Docker Hub][dockerhub].
 
 **Edition Information**
 
