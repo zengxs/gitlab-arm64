@@ -26,8 +26,8 @@ jobs:
     - name: Check for new GitLab release
       id: check
       run: |
-        # Get latest GitLab CE release from GitLab API
-        LATEST_RELEASE=$(curl -s "https://gitlab.com/api/v4/projects/13083/releases" | jq -r '.[0].tag_name' | sed 's/^v//')
+        # Get latest GitLab CE release from DockerHub API
+        LATEST_RELEASE=$(curl -s "https://hub.docker.com/v2/repositories/gitlab/gitlab-ce/tags?page_size=100" | jq -r '.results[] | select(.name | test("^[0-9]+\\.[0-9]+\\.[0-9]+-ce\\.[0-9]+$")) | .name' | sed 's/-ce\.0$//' | sort -V | tail -1)
         echo "Latest GitLab version: $LATEST_RELEASE"
         
         # Check if we already have an image for this version
