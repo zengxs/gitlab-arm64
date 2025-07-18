@@ -1,5 +1,6 @@
 ARG BASE_IMAGE=docker.io/ubuntu:24.04
 FROM $BASE_IMAGE
+
 ARG BASE_IMAGE
 LABEL org.opencontainers.image.authors="GitLab Distribution Team <distribution-be@gitlab.com>" \
       org.opencontainers.image.documentation="https://docs.gitlab.com/ee/install/docker/" \
