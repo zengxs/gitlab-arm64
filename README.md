@@ -16,6 +16,27 @@
 [dockerhub-badge-latest-version-ce]: https://img.shields.io/docker/v/zengxs/gitlab/ce?logo=docker
 [dockerhub-badge-latest-version-ee]: https://img.shields.io/docker/v/zengxs/gitlab/ee?logo=docker
 
+> [!IMPORTANT]
+> **This Project has Accomplished its Mission!**
+> 
+> I'm thrilled to announce that, starting with version 18.2.0, GitLab now officially provides ARM64 Docker images
+> \[[GitLab CE](https://hub.docker.com/r/gitlab/gitlab-ce/tags) | [GitLab EE](https://hub.docker.com/r/gitlab/gitlab-ee/tags)\].
+>
+> This is fantastic news for the ARM64 community and marks the successful completion of the goal this project set out to achieve.
+>
+> The gitlab-arm64 project was created to bridge a gap by providing a community-maintained ARM64 Docker image that was compatible and functionally identical to the official x86_64 version. For years, we've mirrored the official Dockerfile with minimal changes to ensure a seamless experience for users on ARM64 hardware.
+>
+> With GitLab now offering official support, users can benefit directly from their robust, timely, and fully supported images. Therefore, this community project is no longer necessary.
+>
+> **What this means:**
+> * **This project will no longer be maintained or updated.**
+> * All users should migrate to the official GitLab Docker images for future releases and support.
+>
+> A heartfelt thank you to everyone who has used, supported, contributed to, and believed in this project. It has been a privilege to serve this community, and I'm delighted that ARM64 is now a first-class citizen in the GitLab ecosystem.
+
+
+
+
 ## Overview
 
 As the tech landscape evolves, ARM servers are gaining traction for their compact design, cost-effectiveness, and energy efficiency. Major cloud providers, including AWS, Azure, Google Cloud, Oracle Cloud, and Huawei Cloud, are expanding their offerings to include ARM-based solutions.
